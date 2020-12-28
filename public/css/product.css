@@ -1,12 +1,14 @@
 .product-form {
     width: 20rem;
+    max-width: 90%;
     margin: auto;
-    max-width: 90%
+    display: block;
 }
 
 .product-item {
     width: 20rem;
     max-width: 95%;
+    margin: 1rem;
 }
 
 .product__title {
