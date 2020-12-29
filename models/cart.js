@@ -14,15 +14,10 @@ module.exports = class Cart {
             }
             const existingProductIndex = cart.products.findIndex(prod => prod.id === id);
             const existingProduct = cart.products[existingProductIndex];
-            let updatedProduct;
             if (existingProduct)    {
-                updatedProduct = { ...existingProduct};
-                updatedProduct.qty++;
-                cart.products = [...cart.products];
-                cart.products[existingProductIndex] = updatedProduct;
+                existingProduct.qty++;
             } else {
-                updatedProduct = { id: id, qty: 1}
-                cart.products = [...cart.products, updatedProduct];
+                cart.products.push({ id: id, qty: 1});
             }
              cart.totalPrice = cart.totalPrice + +productPrice;
              fs.writeFile(p, JSON.stringify(cart), err => {
@@ -30,4 +25,50 @@ module.exports = class Cart {
              });
         })
     }
+
+    static deleteProduct(id, productPrice) {
+        fs.readFile(p, (err, fileContent) => {
+            if(err) {
+                return;
+            }
+            const updatedCart = {...JSON.parse(fileContent)};
+            console.log(updatedCart)
+            const product = updatedCart.products.find(prod => prod.id === id);
+            updatedCart.products = updatedCart.products.filter(prod => prod.id !== id);
+            console.log(updatedCart)
+            updatedCart.totalPrice = updatedCart.totalPrice - productPrice * product.qty;
+            console.log(updatedCart)
+            fs.writeFile(p, JSON.stringify(updatedCart), err => {
+                console.log(err);
+            });
+        });
+    }
 }
+
+
+// module.exports = class Cart {
+//     static addProduct(id, productPrice) {
+//         fs.readFile(p, (err, fileContent) => {
+//             let cart = { products: [], totalPrice: 0 };
+//             if (!err) {
+//                 cart = JSON.parse(fileContent);
+//             }
+//             const existingProductIndex = cart.products.findIndex(prod => prod.id === id);
+//             const existingProduct = cart.products[existingProductIndex];
+//             let updatedProduct;
+//             if (existingProduct)    {
+//                 updatedProduct = { ...existingProduct};
+//                 updatedProduct.qty++;
+//                 cart.products = [...cart.products];
+//                 cart.products[existingProductIndex] = updatedProduct;
+//             } else {
+//                 updatedProduct = { id: id, qty: 1}
+//                 cart.products = [...cart.products, updatedProduct];
+//             }
+//              cart.totalPrice = cart.totalPrice + +productPrice;
+//              fs.writeFile(p, JSON.stringify(cart), err => {
+//                  console.log(err);
+//              });
+//         })
+//     }
+// }

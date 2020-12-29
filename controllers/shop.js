@@ -3,7 +3,11 @@ const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
     const products = Product.fetchAll((products) => {
-        res.render('shop/product-list', { prods: products, docTitle: 'All Products', path: '/products', activeShop: true, productCSS: true })
+        res.render('shop/product-list', 
+        { prods: products, docTitle: 'All Products', 
+        path: '/products', 
+        activeShop: true, 
+        productCSS: true })
     });
  }
 
