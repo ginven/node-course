@@ -62,3 +62,4 @@ exports.editProduct = (req, res, next) => {
     Product.deleteById(prodId);
     res.redirect('/admin/products')
  }
+
