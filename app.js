@@ -2,14 +2,15 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const rootDir = require('./util/path');
 
 const notFoundController = require('./controllers/error.js');
-const mongoConnect = require('./util/database').mongoConnect;
-const User = require('./models/user')
+const User = require('./models/user');
+const { BADFLAGS } = require('dns');
 
 const app = express();
 
@@ -20,9 +21,9 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(rootDir, 'public')));
 
 app.use((req, res, next) => {
-    User.findById("5ff9af100a1631e8e77e12d3")
+    User.findById("5ffc3ea892dce11aa8a1800f")
     .then(user => {
-        req.user = new User(user.name, user.email, user.cart, user._id);
+        req.user = user;
         next();
     })
     .catch(err => {
@@ -35,6 +36,22 @@ app.use(shopRoutes);
 
 app.use('/', notFoundController.get404);
 
-mongoConnect(() => {
+mongoose.connect('mongodb+srv://ginven:v0rat1nkl1s@cluster0.shkcl.mongodb.net/shop?retryWrites=true&w=majority')
+.then(result => {
+    User.findOne().then(user => {
+        if(!user) {
+            const user = new User({
+                name: 'Gintare',
+                email: 'gintare@bla.com',
+                cart: {
+                    items: []
+                }
+            });
+            user.save();
+        }
+    })
     app.listen(3001);
 })
+.catch(err => {
+    comsole.log(err);
+});
