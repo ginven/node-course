@@ -5,7 +5,8 @@ exports.getAddProduct = (req, res, next) => {
     res.render('admin/edit-product', { 
         docTitle: 'Add products', 
         path: '/admin/add-product',
-        editing: false
+        editing: false,
+        isAuthenticated: req.session.isLoggedIn
     })
 }
 
@@ -32,7 +33,12 @@ exports.postAddProduct = (req, res, next) => {
 exports.showProducts = (req, res, next) => {
     Product.find()
      .then(products => {
-        res.render('admin/products', { prods: products, docTitle: 'Admin products', path: '/admin/products',  activeAdminProducts: true })
+        res.render('admin/products', { 
+            prods: products, 
+            docTitle: 'Admin products', 
+            path: '/admin/products',  
+            activeAdminProducts: true,
+            isAuthenticated: req.session.isLoggedIn })
      })
      .catch(err => {
          console.log(err);
@@ -55,7 +61,8 @@ exports.editProduct = (req, res, next) => {
             docTitle: 'Edit product', 
             path: '/admin/edit-product',
             editing: editMode,
-            product: product
+            product: product,
+            isAuthenticated: req.session.isLoggedIn
             })
     })
     .catch(err => {
