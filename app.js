@@ -1,4 +1,4 @@
-const MONGODB_URI = require('./config.js')
+const { MONGODB_URI } = require('./config.js')
 
 const path = require('path');
 
