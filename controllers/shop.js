@@ -6,8 +6,7 @@ exports.getProducts = (req, res, next) => {
     .then(products => {
         res.render('shop/product-list', { prods: products,
             docTitle: 'Products',
-            path: '/products',
-            isAuthenticated: req.session.isLoggedIn
+            path: '/products'
         })
     })
     .catch(err => {
@@ -48,13 +47,12 @@ exports.getProduct = (req, res, next) => {
         .populate('cart.items.productId')
         .execPopulate()
         .then(user => {
-        const products = user.cart.items;
-        res.render('shop/cart', { 
-            docTitle: 'Cart', 
-            products: products, 
-            path: '/shop/cart',
-            isAuthenticated: req.session.isLoggedIn
-        })
+            const products = user.cart.items;
+            res.render('shop/cart', { 
+                docTitle: 'Cart', 
+                products: products, 
+                path: '/shop/cart'
+            })
         })
         .catch(err => {
             console.log(err);
@@ -79,8 +77,7 @@ exports.postCart = (req, res, next) => {
  exports.getCheckout = (req, res, next) => {
     res.render('shop/checkout', { 
         docTitle: 'Checkout', 
-        path: '/checkout', 
-        isAuthenticated: req.session.isLoggedIn
+        path: '/checkout'
         })
 }
 
@@ -90,8 +87,7 @@ exports.getOrders = (req, res, next) => {
         res.render('shop/orders', { 
             docTitle: 'Previous Orders', 
             path: '/orders', 
-            orders: orders, 
-            isAuthenticated: req.session.isLoggedIn
+            orders: orders
         })
     })
     .catch(err => {
