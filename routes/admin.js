@@ -14,14 +14,12 @@ router.get('/products', isAuth, adminController.showProducts);
 
 router.post('/add-product', [
     body('title').isString().trim().isLength({min: 3}),
-    body('imageUrl').isURL(),
     body('price').isFloat(),
     body('description').trim().isLength({min: 5, max: 200}),
 ], isAuth, adminController.postAddProduct);
 
 router.post('/edit-product', [
     body('title').isString().trim().isLength({min: 3}),
-    body('imageUrl').isURL(),
     body('price').isFloat(),
     body('description').trim().isLength({min: 5, max: 200}),
 ], isAuth, adminController.postEditProduct);

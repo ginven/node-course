@@ -9,13 +9,13 @@
          <p>There are some products in your cart: 
          </p>
          <% } else { %>
-            <ul>
+            <ul class="orders">
                 <% orders.forEach(order => { %>
-                    <li>
-                        <h1># <%= order._id %></h1>
-                        <ul>
+                    <li class="orders__item">
+                        <h1># <%= order._id %> - <a href="/orders/<%= order._id %>" target="_blank">Invoice</a></h1>
+                        <ul class="orders__products">
                             <% order.products.forEach(p => { %>
-                            <li><%= p.product.title %> (<%= p.quantity %>)</li>
+                            <li class="orders__products-item"><%= p.product.title %> (<%= p.quantity %>)</li>
                             <% }) %>
                         </ul>
                     </li>
